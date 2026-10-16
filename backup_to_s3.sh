@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Configuration
-PROJECT_DIR="/var/www/url-redirect"
+PROJECT_DIR="/root/dev/url-redirect"
 DB_SRC="${PROJECT_DIR}/data/redirects.db"
 BACKUP_DIR="${PROJECT_DIR}/backups"
 S3_BUCKET="s3://luap-prod/url-redirect"
