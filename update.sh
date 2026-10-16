@@ -19,6 +19,13 @@ echo "-> Resetting tracked files to origin/${BRANCH}..."
 # Keeps untracked files like .env and ./data intact
 git reset --hard "origin/${BRANCH}"
 
+echo "-> Resetting tracked files to origin/${BRANCH}..."
+git reset --hard "origin/${BRANCH}"
+
+# Re-assert execution bits on shell scripts
+chmod +x update.sh
+find . -name "*.sh" -exec chmod +x {} +
+
 echo "-> Determining Docker Compose binary..."
 if docker compose version >/dev/null 2>&1; then
     COMPOSE_CMD="docker compose"
