@@ -1,0 +1,39 @@
+services:
+  app:
+    build: .
+    container_name: redirect_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Persist the SQLite database on the host machine
+      - ./data:/app/data
+    environment:
+      - REDIRECT_DB=/app/data/redirects.db
+    networks:
+      - redirect_net
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: redirect_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3 support
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data       # Preserves Let's Encrypt SSL certificates across restarts
+      - caddy_config:/config   # Preserves runtime Caddy configuration
+    networks:
+      - redirect_net
+    depends_on:
+      - app
+
+networks:
+  redirect_net:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

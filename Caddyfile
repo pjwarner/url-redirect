@@ -1,0 +1,13 @@
+go.uuarner.com {
+    # Reverse proxy to the Flask service defined in docker-compose
+    reverse_proxy app:5000 {
+        # Transparently forward client IP and host headers
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    # Enable modern compression
+    encode gzip zstd
+}
