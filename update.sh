@@ -46,3 +46,4 @@ docker image prune -f
 echo "=========================================="
 echo "url-redirect update complete!"
 echo "=========================================="
+# Test
